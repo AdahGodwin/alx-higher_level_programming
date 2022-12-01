@@ -1,15 +1,13 @@
 #!/usr/bin/python3
 from sys import argv
 
-n = len(argv)
-index = 1
-if n == 1:
-    print(f"0 argument.")
-elif n == 2:
-    print(f"{n-1:d} argument:")
-    print(f"{index:d}: {argv[index]:s}")
-elif n > 2:
-    print(f"{n-1} arguments:")
-    for j in range(1, n):
-        print(f"{index:d}: {argv[index]:s}")
-        index += 1
+if __name__ == '__main__':
+    if len(argv) == 1:
+        print('0 arguments.')
+    elif len(argv) == 2:
+        print('{:d} argument:'.format(len(argv) - 1))
+    else:
+        print('{:d} arguments:'.format(len(argv) - 1))
+
+        for i, arg in enumerate(argv[1:], start=1):
+            print('{:d}: {:s}'.format(i, arg))
