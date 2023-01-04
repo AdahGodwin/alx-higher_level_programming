@@ -1,20 +1,24 @@
 #!/usr/bin/python3
-
 """
-Text indentation module
+Module that has the function text_indentation
 """
-
 
 def text_indentation(text):
-    """Prints a text with identation.
+    """Prints a text with 2 lines after '.', '?' and ':'
+
     Args:
-        text (:obj: `str`): The text to print.
-    Raises:
-        TypeError: If `text` is not a string.
+        text (str): collection of strings and special characters
     """
-    if type(text) is not str:
-        raise TypeError("text must be a string")
-    for c in text:
-        print(c, end='')
-        if c in ('.', '?', ':'):
-            print("\n")
+    if not isinstance(text, str):
+        raise TypeError('text must be a string')
+    i = 0
+    start = 0
+    while text[i < len(text)]:
+        if i >= len(text):
+            break
+        for character in ['.', '?', ':']:
+            if text[i] == character:
+                print(f'{text[start:i]}{character}\n')
+                start = i + 2
+        i += 1
+    print(text[start:], end="")

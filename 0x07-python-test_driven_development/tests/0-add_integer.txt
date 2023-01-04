@@ -1,73 +1,40 @@
-The ``0-add_integer`` module
-======================
+The `0-add_integer` module
+==========================
 
 Using ``add_integer``
--------------------
-
-This is an example text file in reStructuredText format.  First import
-``add_integer`` from the ``0-add_integer`` module:
-
--------------------
-
+-----------------------
 >>> add_integer = __import__('0-add_integer').add_integer
 
+>>> add_integer(5,6)
+11
 
-# a = int, b = int
->>> add_integer(5, 2)
-7
+>>> add_integer(-5, -9)
+-14
 
-# a = negative int, b =  int
->>> add_integer(-5, 2)
--3
-
-# a = 0, b = int
->>> add_integer(0, 2)
+>>> add_integer(1.1, 1.1)
 2
 
-# a = float, b = int
->>> add_integer(1.2, 2)
-3
+>>> add_integer(100, -2)
+98
 
-# a = int, b = float
->>> add_integer(1, 2.6)
-3
+>>> add_integer(2)
+100
 
-# a = float, b = float
->>> add_integer(5.9, 5.9)
-10
+>>> add_integer(100.3, -2)
+98
 
-# a = None, b = int
->>> add_integer(None, 89)
+>>> add_integer()
 Traceback (most recent call last):
-...
-TypeError: a must be an integer
+TypeError: add_integer() missing 1 required positional argument: 'a'
 
-# a = int, b = None
->>> add_integer(89, None)
+>>> add_integer(4, "school")
 Traceback (most recent call last):
-...
 TypeError: b must be an integer
 
-# a = None
 >>> add_integer(None)
 Traceback (most recent call last):
-...
 TypeError: a must be an integer
 
-# a = str
->>> add_integer('puppy')
+>>> add_integer()
 Traceback (most recent call last):
-...
-TypeError: a must be an integer
-
-# a = int, b = str
->>> add_integer(5, 'doggo')
-Traceback (most recent call last):
-...
-TypeError: b must be an integer
-
-# a = str, b = str
->>> add_integer('brekkie', 'dindin')
-Traceback (most recent call last):
-...
-TypeError: a must be an integer
+TypeError: add_integer() missing 1 required positional argument: 'a'

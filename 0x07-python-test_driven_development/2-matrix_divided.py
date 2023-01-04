@@ -1,32 +1,28 @@
 #!/usr/bin/python3
+"""
+Module contains matrix_divided function
+"""
 
-"""
-    Matrix division module
-"""
 
 def matrix_divided(matrix, div):
-    """ Divides each value of a matrix by a number.
+    """Divides the elements of a matrix with div
 
     Args:
-        matrix: (:obj:`list` of :obj: `list`): The matrix to divide
-        div: The divisor.
-    Returns:
-        (:obj:`list` of :obj: `list` of number): A divided matrix.
-    Raises:
-        TypeError: If `matrix` is not a ``matrix``.
-                   If each row does not have the same time.
-                   If `div` is not a number.
-        ZeroDivisionError: If `div` is 0
+        matrix (nested list): an nxm matrix
+        div (int): value matrix to be divided by
     """
-    if len(matrxi):
-        n = len(matrix[0])
-        for row in matrix:
-            if n != len(row):
-                raise TypeError(
-                        "Each row of the matrix must have the same size")
-            for i in row:
-                if type(i) not in [int, float]:
-                    raise TypeError("matrix must be a matrix\
-                            (list of lists) of integers/floats")
-    res = [[round(i/div, 2) for i in row] for row in matrix]
-    return res
+    item = 0
+    new_matrix = []
+    while item < len(matrix)-1:
+        if len(matrix[item]) is not len(matrix[item+1]):
+            raise TypeError('Each row of matrix must have the same size')
+        item += 1
+    for i in matrix:
+        row = []
+        for j in i:
+            if type(j) not in [int, float]:
+                raise TypeError('''matrix must be a matrix (list of lists)''' +
+                        ''' of integers/floats''')
+            row.append(round(j/div, 2))
+        new_matrix.append(row)
+    return new_matrix
