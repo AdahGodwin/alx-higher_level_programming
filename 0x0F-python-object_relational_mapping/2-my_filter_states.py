@@ -1,23 +1,26 @@
 #!/usr/bin/python3
-
+"""List all states where 'name' matches the argument
+Username, password, database name, and state name given as user args
 """
-A script that takes in an argument and displays all values in the states table
- of hbtn_0e_0_usa where name matches the argument.
-"""
-
+import sys
+import MySQLdb
 
 if __name__ == "__main__":
-    import sys
-    import MySQLdb
+    db = MySQLdb.connect(user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         host='localhost',
+                         port=3306)
+    cur = db.cursor()
+    cmd = """SELECT id, name
+         FROM states
+         WHERE name LIKE BINARY '{}'
+         ORDER BY id ASC""".format(sys.argv[4])
+    cur.execute(cmd)
+    nStates = cur.fetchall()
 
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    for state in nStates:
+        print(state)
 
-    cursor = db.cursor()
-
-    cursor.execute("SELECT * FROM states WHERE name LIKE BINARY '{}'\
-                   ORDER BY states.id ASC".format(sys.argv[4]))
-
-    result = cursor.fetchall()
-
-    for item in result:
-        print(item)
+    cur.close()
+    db.close()

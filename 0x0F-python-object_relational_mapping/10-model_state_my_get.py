@@ -1,6 +1,6 @@
 #!/usr/bin/python3
-"""Print the first 'State' object from db 'hbtn_0e_6_usa'
-Script should take 3 args: username, pw, and db name
+"""Print State obj with 'name' passed as arg from db 'hbtn_0e_6_usa'
+Script should take 4 args: username, pw, db name, and state name
 Must use SQLAlchemy
 """
 import sys
@@ -14,8 +14,9 @@ if __name__ == "__main__":
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    res = session.query(State.id, State.name).first()
-    if (res is None):
-        print("Nothing")
+    res = session.query(State.id).filter(State.name == sys.argv[4])
+
+    if (res.first() is None):
+        print("Not found")
     else:
-        print("{:d}: {}".format(res[0], res[1]))
+        print(res[0][0])

@@ -1,34 +1,27 @@
 #!/usr/bin/python3
-
+"""List all states where 'name' matches the argument
+But this time, one safe from MySQL injection.
+Username, password, database name, and state name given as user args
 """
-Concept tested:  SQL Injection
-
-A script that takes in an argument and displays all values in the states table
- of hbtn_0e_0_usa where name matches the argument.
-"""
-
+import sys
+import MySQLdb
 
 if __name__ == "__main__":
-    import sys
-    import MySQLdb
+    db = MySQLdb.connect(user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         host='localhost',
+                         port=3306)
+    cur = db.cursor()
+    cmd = """SELECT id, name
+         FROM states
+         WHERE name=%s
+         ORDER BY id ASC"""
+    cur.execute(cmd, (sys.argv[4],))
+    nStates = cur.fetchall()
 
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    for state in nStates:
+        print(state)
 
-    cursor = db.cursor()
-    value = ""
-    for char in sys.argv[4]:
-        if (char == "'" or char == '"'):
-            continue
-        if (char == ';'):
-            break
-        if (char != ';'):
-            value = value + char
-
-    sql = "SELECT * FROM states WHERE name = '%s'" % (value)
-    cursor.execute(sql)
-    result = cursor.fetchall()
-    for item in result:
-        print(item)
-
-    cursor.close()
+    cur.close()
     db.close()

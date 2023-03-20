@@ -1,42 +1,29 @@
 #!/usr/bin/python3
-
-
-"""
-Concept tested:  SQL Injection
-
-A script that takes in an argument and displays all values in the states table
- of hbtn_0e_0_usa where name matches the argument.
+"""List all cities from the db by given state
+Username, password, database name, and state name given as user args
+Can only use execute() once
+Sort ascending order by cities.id
 """
 
+import sys
+import MySQLdb
 
 if __name__ == "__main__":
-    import sys
-    import MySQLdb
-    db = MySQLdb.connect(user=sys.argv[1], passwd=sys.argv[2], db=sys.argv[3])
+    db = MySQLdb.connect(user=sys.argv[1],
+                         passwd=sys.argv[2],
+                         db=sys.argv[3],
+                         host='localhost',
+                         port=3306)
+    cur = db.cursor()
+    cmd = """SELECT cities.name
+         FROM states
+         INNER JOIN cities ON states.id = cities.state_id
+         WHERE states.name=%s
+         ORDER BY cities.id ASC"""
+    cur.execute(cmd, (sys.argv[4],))
+    allCities = cur.fetchall()
 
-    cursor = db.cursor()
-    value = ""
-    for char in sys.argv[4]:
-        if (char == "'" or char == '"'):
-            continue
-        if (char == ';'):
-            break
-        if (char != ';'):
-            value = value + char
-    # sub_query = "SELECT id  FROM states WHERE name = '%s' LIMIT 1" % (value)
+    print(", ".join([city[0] for city in allCities]))
 
-    cursor.execute("SELECT name FROM cities WHERE\
-                    state_id = (SELECT id  FROM states\
-                    WHERE name = '%s' LIMIT 1)\
-                    " % (value))
-    result = cursor.fetchall()
-    mystr = ''
-    i, j = 0, 0
-    for i in range(len(result)):
-        for j in range(len(result[i])):
-            mystr = mystr + result[i][j] + ', '
-
-    print(mystr[:-2])
-
-    cursor.close()
+    cur.close()
     db.close()
